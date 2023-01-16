@@ -5,9 +5,15 @@
 # https://t.me/Mafia_upsys_bot
 
 import telebot
-from config import API
+import configparser
+import os
+cfg = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'config.cfg')
+config = configparser.RawConfigParser()
+config.read(cfg)
+config_dict = dict(config.items('TG_BOT'))
+api = config_dict['api']
 
-API_TOKEN = API
+API_TOKEN = api
 
 bot = telebot.TeleBot(API_TOKEN)
 
