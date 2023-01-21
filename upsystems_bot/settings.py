@@ -13,6 +13,9 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 from pathlib import Path
 import configparser
 import os
+from django.urls import reverse_lazy
+
+
 cfg = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'config.cfg')
 config = configparser.RawConfigParser()
 config.read(cfg)
@@ -34,7 +37,7 @@ SECRET_KEY = sec_key
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1']
 
 
 # Application definition
@@ -87,7 +90,7 @@ WSGI_APPLICATION = 'upsystems_bot.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'maket',
+        'NAME': 'mafia',
         'USER': user,
         'PASSWORD': pasw,
     }
@@ -112,9 +115,14 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
+
+FILE_UPLOAD_HANDLERS = [
+    'django.core.files.uploadhandler.MemoryFileUploadHandler',
+    'django.core.files.uploadhandler.TemporaryFileUploadHandler',
+]
+
 
 LANGUAGE_CODE = 'en-us'
 
@@ -134,3 +142,9 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGIN_REDIRECT_URL = reverse_lazy('game_management:index')
+
+LOGIN_URL = reverse_lazy('login')
+
+LOGOUT_URL = reverse_lazy('logout')
