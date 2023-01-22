@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Glossary</title>
+</head>
+<body>
+{%  include  'game_management/main.html' %}
+<br><br>
+<div class="text-end" style="width: 380px;">
+<button class="btn btn-primary m-2" style="width: 320px;" type="button"
+        onclick="window.open('{% url 'game_management:games' %}', '_blank');">
+    Игры
+</button>&nbsp;{{ games }}
+</div>
+<div class="text-end" style="width: 380px;">
+<button class="btn btn-primary m-2" style="width: 320px;" type="button"
+        onclick="window.open('{% url 'game_management:game_result' %}', '_blank');">
+    Виды результата игры
+</button>&nbsp;{{ game_results }}
+</div>
+<div class="text-end" style="width: 380px;"
+        onclick="window.open('{% url 'game_management:role' %}', '_blank');">
+<button class="btn btn-primary m-2" style="width: 320px;">
+    Роли в игре
+</button>&nbsp;{{ roles }}
+</div>
+<div class="text-end" style="width: 380px;"
+        onclick="window.open('{% url 'game_management:member_result' %}', '_blank');">
+<button class="btn btn-primary m-2" style="width: 320px;">
+    Виды личного результата в игре
+</button>&nbsp;{{ member_results }}
+</div>
+<div class="text-end" style="width: 380px;">
+<button class="btn btn-primary m-2" style="width: 320px;"
+        onclick="window.open('{% url 'game_management:game_functions' %}', '_blank');">
+    Функции в игре
+</button>&nbsp;{{ game_functions }}
+</div>
+<div class="text-end" style="width: 380px;">
+<button class="btn btn-primary m-2" style="width: 320px;"
+        onclick="window.open('{% url 'game_management:location' %}', '_blank');">
+    Места проведения игр
+</button>&nbsp;{{ locations }}
+
+
+
+</body>
+</html>

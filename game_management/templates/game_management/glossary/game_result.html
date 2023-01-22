@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Результат игры</title>
+<!-- Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet"/>
+<!-- MDB -->
+<!--<link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/4.4.0/mdb.min.css" rel="stylesheet"/><--->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+<!-- Bootstrap core CSS -->
+<link href="{% static 'game_management/bootstrap.min.css' %}" rel="stylesheet" crossorigin="anonymous">
+</head>
+<body>
+<button type="button" onclick="window.close()" class="btn btn-outline-primary m-3"><i class="bi bi-x-lg"></i>&nbsp;Закрыть</button>
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#resultModal">
+  Добавить результат
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="resultModal" tabindex="-1" aria-labelledby="resultModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="resultModalLabel">Добавить/Редактировать результат</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form action="{% url 'game_management:update_result' %}" method="post">
+      {% csrf_token %}
+      <div class="modal-body">
+        <input type="number" class="form-control mb-2" name="result_id" id="result_id" readonly>
+        <input type="text" class="form-control mb-2" name="result" id="result" placeholder="результат">
+        <select class="form-select mb-2"  name="game"id="game">
+        {% for game in game_types %}
+            <option value="{{ game.id }}">{{ game.game_name }}</option>
+        {% endfor %}
+        </select>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="clearResultModal()">Закрыть</button>
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<table class="table table-sm table-hover m-3" style="max-width: 800px;">
+    <thead>
+    <tr class="table-primary">
+        <th style="max-width: 200px;">Название</th>
+        <th style="max-width: 600px;">Описание</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for result in results %}
+    <tr onclick="fillResultModal(this);" data-bs-toggle="modal" data-bs-target="#resultModal" data-id="{{ result.id }}"
+        data-result="{{ result.game_result }}" data-game="{{ result.game_type.id }}">
+        <td>{{ result.game_result }}</td>
+        <td>{{ result.game_type.game_name }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+
+
+<script src="{% static 'game_management/bootstrap.bundle.min.js' %}" crossorigin="anonymous"></script>
+<script src="{% static 'game_management/game_management.js' %}" crossorigin="anonymous"></script>
+
+</body>
+</html>
