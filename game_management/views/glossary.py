@@ -177,5 +177,19 @@ def delete_function(request):
 
 @login_required()
 def location(request):
-    context = {}
+    locations = Location.objects.filter(active=True)
+    context = {'locations': locations}
     return render(request, 'game_management/glossary/location.html', context)
+
+def update_location(reqest):
+    return HttpResponseRedirect(reverse('game_management:location'))
+
+
+def delete_location(request):
+    try:
+        location = Location.objects.get(id=request.POST['to_delete'])
+        location.active = False
+        location.save()
+    except:
+        pass
+    return HttpResponseRedirect(reverse('game_management:location'))

@@ -39,6 +39,8 @@ urlpatterns = [
     path('glossary/game_functions/delete_function', views.delete_function, name='delete_function'),
 
     path('glossary/location', views.location, name='location'),
+    path('glossary/location/update_location', views.update_location, name='update_location'),
+    path('glossary/location/delete_location', views.delete_location, name='delete_location'),
 ]
 
 
