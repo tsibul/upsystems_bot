@@ -37,3 +37,11 @@ function clearRoleModal(){
     document.getElementById('side').value = null;
     document.getElementById('game').value = null;
 }
+
+function fillLocationModal(strObj){
+    document.getElementById('loc_id').value = strObj.dataset.id;
+}
+
+function cleaLocationModal(){
+    document.getElementById('loc_id').value = null;
+}
