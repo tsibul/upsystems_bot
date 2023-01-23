@@ -48,11 +48,12 @@
   </div>
 </div>
 
-<table class="table table-sm table-hover m-3" style="max-width: 800px;">
+<table class="table table-sm table-hover m-3" style="max-width: 900px;">
     <thead>
     <tr class="table-primary">
         <th style="max-width: 200px;">Название</th>
         <th style="max-width: 600px;">Описание</th>
+        <th style="max-width: 100px;"></th>
     </tr>
     </thead>
     <tbody>
@@ -61,11 +62,19 @@
         data-name="{{ game.game_name }}" data-description="{{ game.game_description }}">
         <td>{{ game.game_name }}</td>
         <td>{{ game.game_description }}</td>
+        <td class="text-end">
+            <form action="{% url 'game_management:delete_game' %}" method="post">
+                {% csrf_token %}
+                <input type="number" value="{{ game.id }}" name="to_delete" hidden>
+                <button type="submit" class="btn btn-sm btn-outline-danger">
+                    <i class="bi bi-x-lg"></i>&nbsp;Удалить
+                </button>
+            </form>
+        </td>
     </tr>
     {% endfor %}
     </tbody>
 </table>
-
 
 
 <script src="{% static 'game_management/bootstrap.bundle.min.js' %}" crossorigin="anonymous"></script>

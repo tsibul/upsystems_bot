@@ -53,8 +53,9 @@
 <table class="table table-sm table-hover m-3" style="max-width: 800px;">
     <thead>
     <tr class="table-primary">
-        <th style="max-width: 200px;">Название</th>
-        <th style="max-width: 600px;">Описание</th>
+        <th style="max-width: 200px;">Победитель</th>
+        <th style="max-width: 600px;">Игра</th>
+        <th style="max-width: 100px;"></th>
     </tr>
     </thead>
     <tbody>
@@ -63,6 +64,15 @@
         data-result="{{ result.game_result }}" data-game="{{ result.game_type.id }}">
         <td>{{ result.game_result }}</td>
         <td>{{ result.game_type.game_name }}</td>
+        <td class="text-end">
+            <form action="{% url 'game_management:delete_result' %}" method="post">
+                {% csrf_token %}
+                <input type="number" value="{{ result.id }}" name="to_delete" hidden>
+                <button type="submit" class="btn btn-sm btn-outline-danger">
+                    <i class="bi bi-x-lg"></i>&nbsp;Удалить
+                </button>
+            </form>
+        </td>
     </tr>
     {% endfor %}
     </tbody>

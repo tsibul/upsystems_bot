@@ -17,6 +17,63 @@
 <body>
 <button type="button" onclick="window.close()" class="btn btn-outline-primary m-3"><i class="bi bi-x-lg"></i>&nbsp;Закрыть</button>
 
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#resultModal">
+  Добавить описание
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="resultModal" tabindex="-1" aria-labelledby="resultModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="resultModalLabel">Добавить/Редактировать игру</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form action="{% url 'game_management:update_member_result' %}" method="post">
+      {% csrf_token %}
+      <div class="modal-body">
+        <input type="number" class="form-control mb-2" name="game_id" id="game_id" readonly>
+        <input type="text" class="form-control mb-2" name="name" id="name" placeholder="название">
+        <input type="text" class="form-control mb-2" name="description"id="description" placeholder="описание">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="clearGameModal()">Закрыть</button>
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<table class="table table-sm table-hover m-3" style="max-width: 900px;">
+    <thead>
+    <tr class="table-primary">
+        <th style="max-width: 200px;">Результат</th>
+        <th style="max-width: 600px;">Описание</th>
+        <th style="max-width: 100px;"></th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for result in results %}
+    <tr onclick="fillGameModal(this);" data-bs-toggle="modal" data-bs-target="#gameModal" data-id="{{ result.id }}"
+        data-name="{{ result.member_result }}" data-description="{{ result.member_result_type }}">
+        <td>{{ result.member_result }}</td>
+        <td>{{ result.member_result_type }}</td>
+        <td class="text-end">
+            <form action="{% url 'game_management:delete_member_result' %}" method="post">
+                {% csrf_token %}
+                <input type="number" value="{{ game.id }}" name="to_delete" hidden>
+                <button type="submit" class="btn btn-sm btn-outline-danger">
+                    <i class="bi bi-x-lg"></i>&nbsp;Удалить
+                </button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
 
 <script src="{% static 'game_management/bootstrap.bundle.min.js' %}" crossorigin="anonymous"></script>
 <script src="{% static 'game_management/game_management.js' %}" crossorigin="anonymous"></script>
