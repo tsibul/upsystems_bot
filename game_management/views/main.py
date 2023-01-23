@@ -16,4 +16,4 @@ import datetime
 @login_required()
 def index(request):
     context = {}
-    return render(request, 'game_management/main.html', context)
+    return render(request, 'game_management/index.html', context)

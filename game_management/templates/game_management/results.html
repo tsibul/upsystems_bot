@@ -1,10 +1,12 @@
 <!DOCTYPE html>
+{%  load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
-<body>
+<link href="{% static 'game_management/style.css' %}" rel="stylesheet" crossorigin="anonymous">
+<body id="bg" style="background-image: url('{% static "img/back2.png"%}');">
 {%  include  'game_management/main.html' %}
 <br><br>
 
