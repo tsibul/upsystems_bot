@@ -7,3 +7,4 @@ from game_management.views.schedule import *
 from game_management.views.rating import *
 from game_management.views.glossary import *
 from game_management.views.results import *
+from game_management.views.location import *

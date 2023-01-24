@@ -1,6 +1,7 @@
 from django.shortcuts import render, HttpResponseRedirect, reverse
 from django.contrib.auth.decorators import login_required
 from game_management.models import GameType, GameResult, Role, MemberResult, GameFunction, Location
+from django.contrib.auth.models import User
 
 
 @login_required()
@@ -10,9 +11,8 @@ def glossary(request):
     roles = Role.objects.filter(active=True).count()
     member_results = MemberResult.objects.filter(active=True).count()
     game_functions = GameFunction.objects.filter(active=True).count()
-    locations = Location.objects.filter(active=True).count()
     context = {'games': games, 'game_results': game_results, 'roles': roles, 'member_results': member_results,
-               'game_functions': game_functions, 'locations': locations}
+               'game_functions': game_functions}
     return render(request, 'game_management/glossary.html', context)
 
 
@@ -178,7 +178,8 @@ def delete_function(request):
 @login_required()
 def location(request):
     locations = Location.objects.filter(active=True)
-    context = {'locations': locations}
+    user = User
+    context = {'locations': locations, 'user': user}
     return render(request, 'game_management/glossary/location.html', context)
 
 def update_location(request):

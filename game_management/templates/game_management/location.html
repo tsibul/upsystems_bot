@@ -16,11 +16,16 @@
 <link href="{% static 'game_management/style.css' %}" rel="stylesheet" crossorigin="anonymous">
 </head>
 <body id="bg" style="background-image: url('{% static "img/back2.png"%}');">
-<button type="button" onclick="window.close()" class="btn btn-outline-primary m-3"><i class="bi bi-x-lg"></i>&nbsp;Закрыть</button>
-
+{%  include  'game_management/main.html' %}
+<div class="text-end m-2" style="width: 1400px;" >
 <!-- Button trigger modal -->
+{% if request.user.is_authenticated %}
 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#locModal">
 Добавить локацию</button>
+{% else %}
+    <br><br>
+{% endif %}
+</div>
 
 <!-- Modal -->
 <div class="modal fade" id="locModal" tabindex="-1" aria-labelledby="locModalLabel" aria-hidden="true">
@@ -36,7 +41,9 @@
         <input type="number" class="form-control" name="loc_id" id="loc_id" readonly>
         <input type="text" class="form-control mt-1 mb-1" id="name" name="name" placeholder="название">
         <input type="text" class="form-control mt-1 mb-1" id="address" name="address" placeholder="адрес">
-        <input type="text" class="form-control mt-1 mb-1" id="direction" name="direction" placeholder="как проехать">
+        <label for="direction" class="ms-1 mt-1 mb-1">как проехать</label>
+        <textarea type="text" class="form-control mt-1 mb-1" id="direction" name="direction" placeholder="как проехать">
+        </textarea>
         <input type="text" class="form-control mt-1 mb-1" id="point" name="point" placeholder="google point">
         <div class="row">
         <div class="col">
@@ -69,18 +76,19 @@
         <th>Координата</th>
         <th>Фото</th>
         <th>Схема проезда</th>
-        <th></th>
+        {% if request.user.is_authenticated %}<th></th>{% endif %}
     </tr>
     </thead>
     <tbody>
     {% for loc in locations %}
-    <tr >
+    <tr class="align-middle">
         <td>{{ loc.location_name }}</td>
         <td>{{ loc.location_address }}</td>
         <td>{{ loc.location_directions }}</td>
         <td>{{ loc.location_point }}</td>
-        <td><img src="{%  get_static_prefix %}locations/{{ loc.location_photo}}" style="max-width: 100px; max-height: 100px;"></td>
-        <td><img src="{%  get_static_prefix %}directions/{{ loc.direction_photo }}" style="max-width: 100px; max-height: 100px;"></td>
+        <td><img src="{%  get_static_prefix %}locations/{{ loc.location_photo}}" style="max-width: 180px; max-height: 180px;"></td>
+        <td><img src="{%  get_static_prefix %}directions/{{ loc.direction_photo }}" style="max-width: 180px; max-height: 180px;"></td>
+        {% if request.user.is_authenticated %}
         <td style="width: 170px;">
             <button class="btn btn-outline-primary m-1" type="button" data-bs-toggle="modal" data-bs-target="#locModal"
                     onclick="fillLocationModal(this);" data-id="{{ loc.id }}" data-name="{{ loc.location_name }}"
@@ -96,6 +104,7 @@
             </button>
             </form>
         </td>
+        {% endif %}
     </tr>
     {% endfor %}
     </tbody>
