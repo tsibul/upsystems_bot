@@ -13,7 +13,6 @@ from game_management.forms import LoginForm
 import datetime
 
 # Create your views here.
-@login_required()
 def index(request):
     context = {}
     return render(request, 'game_management/index.html', context)

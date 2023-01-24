@@ -29,7 +29,9 @@
 <div class="fixed-top" style="width: 80mm;">
 <div class="p-2 -m-2" >
 <button class="btn btn-outline-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions2" aria-controls="offcanvasWithBothOptions2">
-  <i class="fas fa-bars"></i>&nbsp {{user.first_name}} {{user.last_name}}</button>
+  <i class="fas fa-bars"></i>
+    {% if request.user.is_authenticated %}&nbsp {{user.first_name}} {{user.last_name}}{% else %}&nbsp;Гость{% endif %}
+</button>
 </div>
 </div>
 <div class="offcanvas offcanvas-start" data-bs-scroll="true"
@@ -49,15 +51,20 @@
 </div>
 <div class="offcanvas-body" >
     <p><a href="{% url 'game_management:index' %}">Главная</a></p>
+    {% if request.user.is_authenticated %}
     <p><a href="{% url 'game_management:schedule' %}">Расписание</a></p>
     <p><a href="{% url 'game_management:members' %}">Члены клуба</a></p>
     <p><a href="{% url 'game_management:masters' %}">Ведущие</a></p>
+    {% endif %}
     <p><a href="{% url 'game_management:results' %}">Результаты игр</a></p>
     <p><a href="{% url 'game_management:rating' %}">Рейтинг</a></p>
+    <p><a href="{% url 'game_management:location' %}">Локации</a></p>
+    {% if request.user.is_authenticated %}
     <p><a href="{% url 'game_management:promo' %}">Анонсы</a></p>
     <p><a href="{% url 'game_management:glossary' %}">Справочники</a></p>
     <p><a href="{% url 'game_management:bot' %}">Бот</a></p>
     <p>История</p>
+    {% endif %}
 </div>
 </div>
 
