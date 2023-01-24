@@ -40,8 +40,38 @@ function clearRoleModal(){
 
 function fillLocationModal(strObj){
     document.getElementById('loc_id').value = strObj.dataset.id;
+    document.getElementById('name').value = strObj.dataset.name;
+    document.getElementById('address').value = strObj.dataset.address;
+    document.getElementById('direction').value = strObj.dataset.directions;
+    document.getElementById('point').value = strObj.dataset.point;
+    if(document.getElementById('loc_id') != null){
+        document.getElementById('photo_form').hidden = true;
+        document.getElementById('scheme_form').hidden = true;
+        document.getElementById('locModalLabel').textContent = 'Редактировать локацию'
+
+    }
+//    document.getElementById('photo').textContent = "фото " + strObj.dataset.photo;
+//    document.getElementById('scheme').textContent = "схема " + strObj.dataset.scheme;
 }
 
 function cleaLocationModal(){
     document.getElementById('loc_id').value = null;
+    document.getElementById('name').value = null;
+    document.getElementById('address').value = null;
+    document.getElementById('direction').value = null;
+    document.getElementById('point').value = null;
+    document.getElementById('photo_form').hidden = false;
+    document.getElementById('scheme_form').hidden = false;
+    document.getElementById('locModalLabel').textContent = 'Добавить локацию'
+
+//    document.getElementById('photo').value = null;
+//    document.getElementById('scheme').value = null;
+}
+
+function locIdCheck(){
+    var result = 'True'
+    if(document.getElementById('loc_id').value == null){
+        result = 'False'
+    }
+    return result
 }

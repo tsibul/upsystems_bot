@@ -159,7 +159,7 @@ class Location(models.Model):
     """ Locations table (point for Google Maps) """
     location_name = models.CharField(max_length=100)
     location_address = models.CharField(max_length=255)
-    Location_directions = models.CharField(max_length=255)
+    location_directions = models.CharField(max_length=255)
     location_point = models.CharField(max_length=255)
     location_photo = models.FileField(storage=fs_locations, null=True, blank=True)
     direction_photo = models.FileField(storage=fs_directions, null=True, blank=True)

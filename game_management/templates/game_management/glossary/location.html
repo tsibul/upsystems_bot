@@ -24,21 +24,35 @@
 
 <!-- Modal -->
 <div class="modal fade" id="locModal" tabindex="-1" aria-labelledby="locModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="locModalLabel">Добавить/редактировать локацию</h5>
+        <h5 class="modal-title" id="locModalLabel"></h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form action="{% url 'game_management:update_location' %}" method="post">
+      <form action="{% url 'game_management:update_location' %}" method="post" enctype="multipart/form-data">
       {%  csrf_token %}
       <div class="modal-body">
-        <input type="number" name="loc_id" id="loc_id" readonly>
-        ...
+        <input type="number" class="form-control" name="loc_id" id="loc_id" readonly>
+        <input type="text" class="form-control mt-1 mb-1" id="name" name="name" placeholder="название">
+        <input type="text" class="form-control mt-1 mb-1" id="address" name="address" placeholder="адрес">
+        <input type="text" class="form-control mt-1 mb-1" id="direction" name="direction" placeholder="как проехать">
+        <input type="text" class="form-control mt-1 mb-1" id="point" name="point" placeholder="google point">
+        <div class="row">
+        <div class="col">
+        <label for="photo_form" class="mt-1 mb-1">фото</label>
+        <input type="file" class="form-control mt-1 mb-1" name="photo" placeholder="фото" accept=".jpg" id="photo_form">
+        </div>
+        <div class="col">
+        <label for="scheme_form" class="mt-1 mb-1" id="scheme">схема</label>
+        <input type="file" class="form-control mt-1 mb-1" name="scheme" placeholder="схема проезда" id="scheme_form"
+               accept=".jpg" >
+        </div>
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                onclick="clearGameModal();">Отменить</button>
+                onclick="cleaLocationModal();">Отменить</button>
         <button type="submit" class="btn btn-primary">Сохранить</button>
       </div>
       </form>
@@ -60,17 +74,24 @@
     </thead>
     <tbody>
     {% for loc in locations %}
-    <tr data-bs-toggle="modal" data-bs-target="#locModal" onclick="fillLocationModal(this);" data-id="{{ loc.id }}">
+    <tr >
         <td>{{ loc.location_name }}</td>
         <td>{{ loc.location_address }}</td>
-        <td>{{ loc.Location_directions }}</td>
+        <td>{{ loc.location_directions }}</td>
         <td>{{ loc.location_point }}</td>
-        <td><img src="{{ loc.location_photo }}" style="max-width: 100px; max-height: 100px;"></td>
-        <td><img src="{{ loc.direction_photo }}" style="max-width: 100px; max-height: 100px;"></td>
-        <td>
+        <td><img src="{%  get_static_prefix %}locations/{{ loc.location_photo}}" style="max-width: 100px; max-height: 100px;"></td>
+        <td><img src="{%  get_static_prefix %}directions/{{ loc.direction_photo }}" style="max-width: 100px; max-height: 100px;"></td>
+        <td style="width: 170px;">
+            <button class="btn btn-outline-primary m-1" type="button" data-bs-toggle="modal" data-bs-target="#locModal"
+                    onclick="fillLocationModal(this);" data-id="{{ loc.id }}" data-name="{{ loc.location_name }}"
+                    data-address="{{ loc.location_address }}" data-directions="{{ loc.location_directions }}"
+                    data-point="{{ loc.location_point }}" data-photo="{{ loc.location_photo.name }}"
+                    data-scheme="{{ loc.direction_photo.name }}" style="width: 160px;">
+                    <i class="bi bi-pencil-square"></i>&nbsp;Редактировать
+            </button>
             <form action="{% url 'game_management:delete_location' %}" method="post">
             {% csrf_token %}
-            <button class="btn btn-outline-danger" type="submit">
+            <button class="btn btn-outline-danger m-1" type="submit" style="width: 160px;">
                <i class="bi bi-x-lg"></i>&nbsp;Удалить
             </button>
             </form>
