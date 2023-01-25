@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.core.files.storage import FileSystemStorage
 from django.contrib.auth.models import User
 from auditlog.registry import auditlog
+import datetime
 
 
 fs_members = FileSystemStorage(location='files/members')
@@ -24,17 +25,6 @@ class GameFunction (models.Model):
         return self.game_function
 
 
-"""
-    create_time = models.DateTimeField(auto_now=True)
-    create_user = models.ForeignKey(User, models.SET_NULL, null=True, related_name='func_creator')
-    update_time = models.DateTimeField(blank=True, null=True, default='',)
-    update_user = models.ForeignKey(User, models.SET_NULL, null=True, related_name='func_editor')
-    delete_time = models.DateTimeField(blank=True, null=True, default='')
-    delete_user = models.ForeignKey(User, models.SET_NULL, null=True, related_name='func_destroyer')
-"""
-
-
-
 class GameType (models.Model):
     """ game types with description """
     game_name = models.CharField(max_length=100)
@@ -46,16 +36,6 @@ class GameType (models.Model):
 
     def __str__(self):
         return self.game_name
-
-
-"""    
-    create_time = models.DateTimeField(auto_now=True)
-    create_user = models.ForeignKey(User, models.SET_NULL, null=True, related_name='type_creator')
-    update_time = models.DateTimeField(blank=True, null=True, default='',)
-    update_user = models.ForeignKey(User, models.SET_NULL, null=True, related_name='type_editor')
-    delete_time = models.DateTimeField(blank=True, null=True, default='')
-    delete_user = models.ForeignKey(User, models.SET_NULL, null=True, related_name='type_destroyer')
-"""
 
 
 class Role (models.Model):
@@ -73,16 +53,6 @@ class Role (models.Model):
         return self.role
 
 
-"""
-    create_time = models.DateTimeField(auto_now=True)
-    create_user = models.ForeignKey(User, models.SET_NULL, null=True, related_name='role_creator')
-    update_time = models.DateTimeField(blank=True, null=True, default='',)
-    update_user = models.ForeignKey(User, models.SET_NULL, null=True, related_name='role_editor')
-    delete_time = models.DateTimeField(blank=True, null=True, default='')
-    delete_user = models.ForeignKey(User, models.SET_NULL, null=True, related_name='role_destroyer')
-"""
-
-
 class GameResult (models.Model):
     """ game result """
     game_type = models.ForeignKey(GameType, models.SET_NULL, null=True)
@@ -95,15 +65,6 @@ class GameResult (models.Model):
     def __str__(self):
         return self.game_result
 
-'''
-    create_time = models.DateTimeField(auto_now=True)
-    create_user = models.ForeignKey(User, models.SET_NULL, null=True, related_name='game_result_creator')
-    update_time = models.DateTimeField(blank=True, null=True, default='',)
-    update_user = models.ForeignKey(User, models.SET_NULL, null=True, related_name='game_result_editor')
-    delete_time = models.DateTimeField(blank=True, null=True, default='')
-    delete_user = models.ForeignKey(User, models.SET_NULL, null=True, related_name='game_result_destroyer')
-'''
-
 
 class MemberResult (models.Model):
     member_result = models.CharField(max_length=100)
@@ -115,16 +76,6 @@ class MemberResult (models.Model):
 
     def __str__(self):
         return self.member_result
-
-
-'''
-    create_time = models.DateTimeField(auto_now=True)
-    create_user = models.ForeignKey(User, models.SET_NULL, null=True, related_name='member_result_creator')
-    update_time = models.DateTimeField(blank=True, null=True, default='',)
-    update_user = models.ForeignKey(User, models.SET_NULL, null=True, related_name='member_result_editor')
-    delete_time = models.DateTimeField(blank=True, null=True, default='')
-    delete_user = models.ForeignKey(User, models.SET_NULL, null=True, related_name='member_result_destroyer')
-'''
 
 
 class Member (models.Model):
@@ -145,16 +96,6 @@ class Member (models.Model):
         return self.nickname
 
 
-'''
-    create_time = models.DateTimeField(auto_now=True)
-    create_user = models.ForeignKey(User, models.SET_NULL, null=True, related_name='member_creator')
-    update_time = models.DateTimeField(blank=True, null=True, default='',)
-    update_user = models.ForeignKey(User, models.SET_NULL, null=True, related_name='member_editor')
-    delete_time = models.DateTimeField(blank=True, null=True, default='')
-    delete_user = models.ForeignKey(User, models.SET_NULL, null=True, related_name='member_destroyer')
-'''
-
-
 class Location(models.Model):
     """ Locations table (point for Google Maps) """
     location_name = models.CharField(max_length=100)
@@ -170,16 +111,6 @@ class Location(models.Model):
 
     def __str__(self):
         return self.location_name
-
-
-'''
-    create_time = models.DateTimeField(auto_now=True)
-    create_user = models.ForeignKey(User, models.SET_NULL, null=True, related_name='location_creator')
-    update_time = models.DateTimeField(blank=True, null=True, default='',)
-    update_user = models.ForeignKey(User, models.SET_NULL, null=True, related_name='location_editor')
-    delete_time = models.DateTimeField(blank=True, null=True, default='')
-    delete_user = models.ForeignKey(User, models.SET_NULL, null=True, related_name='location_destroyer')
-'''
 
 
 class Schedule (models.Model):
@@ -200,17 +131,6 @@ class Schedule (models.Model):
         return str(self.date) + ' ' + str(self.schedule_time_begin) + ' ' + self.game.game_name
 
 
-'''
-    create_time = models.DateTimeField(auto_now=True)
-    create_user = models.ForeignKey(User, models.SET_NULL, null=True, related_name='schedule_creator')
-    update_time = models.DateTimeField(blank=True, null=True, default='',)
-    update_user = models.ForeignKey(User, models.SET_NULL, null=True, related_name='schedule_editor')
-    delete_time = models.DateTimeField(blank=True, null=True, default='')
-    delete_user = models.ForeignKey(User, models.SET_NULL, null=True, related_name='schedule_destroyer')
-'''
-
-
-
 class RegisteredToGame (models.Model):
     """ registered to the game """
     schedule = models.ForeignKey(Schedule, on_delete=models.CASCADE)
@@ -223,16 +143,6 @@ class RegisteredToGame (models.Model):
 
     def __str__(self):
         return str(self.schedule.date) + self.member.nickname
-
-
-'''
-    create_time = models.DateTimeField(auto_now=True)
-    create_user = models.ForeignKey(User, models.SET_NULL, null=True, related_name='register_creator')
-    update_time = models.DateTimeField(blank=True, null=True, default='',)
-    update_user = models.ForeignKey(User, models.SET_NULL, null=True, related_name='register_editor')
-    delete_time = models.DateTimeField(blank=True, null=True, default='')
-    delete_user = models.ForeignKey(User, models.SET_NULL, null=True, related_name='register_destroyer')
-'''
 
 
 class GameInSchedule (models.Model):
@@ -254,16 +164,6 @@ class GameInSchedule (models.Model):
         return str(self.time_begin) + ' ' + self.game_type.game_name + ' ' + self.master.nickname
 
 
-'''
-    create_time = models.DateTimeField(auto_now=True)
-    create_user = models.ForeignKey(User, models.SET_NULL, null=True, related_name='game_creator')
-    update_time = models.DateTimeField(blank=True, null=True, default='',)
-    update_user = models.ForeignKey(User, models.SET_NULL, null=True, related_name='game_editor')
-    delete_time = models.DateTimeField(blank=True, null=True, default='')
-    delete_user = models.ForeignKey(User, models.SET_NULL, null=True, related_name='game_destroyer')
-'''
-
-
 class MemberInGame(models.Model):
     """ member results for the certain game"""
     game_in_schedule = models.ForeignKey(GameInSchedule, models.SET_NULL, null=True)
@@ -278,16 +178,6 @@ class MemberInGame(models.Model):
 
     def __str__(self):
         return str(self.game_in_schedule) + ' ' + self.member.nickname
-
-
-'''
-    create_time = models.DateTimeField(auto_now=True)
-    create_user = models.ForeignKey(User, models.SET_NULL, null=True, related_name='member_in_game_creator')
-    update_time = models.DateTimeField(blank=True, null=True, default='',)
-    update_user = models.ForeignKey(User, models.SET_NULL, null=True, related_name='member_in_game_editor')
-    delete_time = models.DateTimeField(blank=True, null=True, default='')
-    delete_user = models.ForeignKey(User, models.SET_NULL, null=True, related_name='member_in_game_destroyer')
-'''
 
 
 class MemberRating (models.Model):
@@ -321,7 +211,7 @@ class MemberStatistics (models.Model):
 
 class Promo (models.Model):
     """ text for promo devided in 4 parts par — emojy before each part"""
-    promo_date = models.DateField
+    promo_date = models.DateField(default=datetime.datetime.strptime('25012023', '%d%m%Y').date())
     par1 = models.CharField(max_length=10)
     text1 = models.CharField(max_length=400)
     par2 = models.CharField(max_length=10)
@@ -337,16 +227,6 @@ class Promo (models.Model):
 
     def __str__(self):
         return 'promo ' + str(self.promo_date)
-
-
-'''
-    create_time = models.DateTimeField(auto_now=True)
-    create_user = models.ForeignKey(User, models.SET_NULL, null=True, related_name='promo_creator')
-    update_time = models.DateTimeField(blank=True, null=True, default='',)
-    update_user = models.ForeignKey(User, models.SET_NULL, null=True, related_name='promo_editor')
-    delete_time = models.DateTimeField(blank=True, null=True, default='')
-    delete_user = models.ForeignKey(User, models.SET_NULL, null=True, related_name='promo_destroyer')
-'''
 
 
 auditlog.register(GameType)
