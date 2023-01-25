@@ -30,10 +30,11 @@
     </thead>
     <tbody>
     {% for item in promo %}
-    <tr data-bs-toggle="modal" data-bs-target="#promoModal" data-id="{{ item.id }}" data-date="{{ item.promo_date }}"
+    <tr data-bs-toggle="modal" data-bs-target="#promoModal" data-id="{{ item.id }}"
+        data-date="{{ item.promo_date|date:'Y-m-d' }}"
         data-par1="{{ item.par1 }}" data-text1="{{ item.text1 }}" data-par2="{{ item.par2 }}"
         data-text2="{{ item.text2 }}" data-par3="{{ item.par3 }}" data-text3="{{ item.text3 }}"
-        data-par4="{{ item.par4 }}" data-text4="{{ item.text4 }}">
+        data-par4="{{ item.par4 }}" data-text4="{{ item.text4 }}" onclick="fillPromoModal(this);">
         <td>
             {{ item.promo_date|date:"d.m.Y" }}
             <form action="{% url 'game_management:delete_promo' %}" method="post">
@@ -70,11 +71,11 @@
       {%  csrf_token %}
       <div class="modal-body">
         <div class="row">
-        <div class="col-2 mb-1">
+        <div class="col-3 mb-2">
         <input type="date" class="form-control" name="date" id="date" required>
         </div>
-        <div class="col-auto mb-1">
-        <input type="text" class="form-control" name="promo_id" id="promo_id" readonly>
+        <div class="col-auto mb-2">
+        <input type="text" class="form-control" name="promo_id" id="promo_id" disabled>
         </div>
         </div>
         <div class="row">
@@ -87,39 +88,41 @@
         </div>
         <div class="row">
         <div class="col-2 mb-1">
-        <input type="text" class="form-control" name="par2" >
+        <input type="text" class="form-control" name="par2" id="par2">
         </div>
         <div class="col-10 mb-1">
-            <textarea class="form-control" name="text2"></textarea>
+            <textarea class="form-control" name="text2" id="text2"></textarea>
         </div>
         </div>
         <div class="row">
         <div class="col-2 mb-1">
-        <input type="text" class="form-control" name="par3" >
+        <input type="text" class="form-control" name="par3" id="par3">
         </div>
         <div class="col-10 mb-1">
-            <textarea class="form-control" name="text3"></textarea>
+            <textarea class="form-control" name="text3" id="text3"></textarea>
         </div>
         </div>
         <div class="row">
         <div class="col-2 mb-1">
-        <input type="text" class="form-control" name="par4">
+        <input type="text" class="form-control" name="par4" id="par4">
         </div>
         <div class="col-10 mb-1">
-            <textarea class="form-control" name="text4"></textarea>
+            <textarea class="form-control" name="text4" id="text4"></textarea>
         </div>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                onclick="clearPromoModal();">Закрыть</button>
         <button type="submit" class="btn btn-primary">Сохранить</button>
       </div>
       </form>
     </div>
-
-
-
   </div>
 </div>
+
+<script src="{% static 'game_management/bootstrap.bundle.min.js' %}" crossorigin="anonymous"></script>
+<script src="{% static 'game_management/game_management.js' %}" crossorigin="anonymous"></script>
+
 </body>
 </html>

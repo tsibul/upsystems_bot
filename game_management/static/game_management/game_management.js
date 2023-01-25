@@ -68,3 +68,28 @@ function cleaLocationModal(){
 //    document.getElementById('scheme').value = null;
 }
 
+function fillPromoModal(thisObj){
+    document.getElementById('promo_id').value = thisObj.dataset.id;
+    document.getElementById('date').value = thisObj.dataset.date;
+    document.getElementById('par1').value = thisObj.dataset.par1;
+    document.getElementById('text1').textContent = thisObj.dataset.text1;
+    document.getElementById('par2').value = thisObj.dataset.par2;
+    document.getElementById('text2').textContent = thisObj.dataset.text2;
+    document.getElementById('par3').value = thisObj.dataset.par3;
+    document.getElementById('text3').textContent = thisObj.dataset.text3;
+    document.getElementById('par4').value = thisObj.dataset.par4;
+    document.getElementById('text4').textContent = thisObj.dataset.text4;
+}
+
+function clearPromoModal(){
+    document.getElementById('promo_id').value = null;
+    document.getElementById('date').value = null;
+    document.getElementById('par1').value = null;
+    document.getElementById('text1').textContent = null;
+    document.getElementById('par2').value = null;
+    document.getElementById('text2').textContent = null;
+    document.getElementById('par3').value = null;
+    document.getElementById('text3').textContent = null;
+    document.getElementById('par4').value = null;
+    document.getElementById('text4').textContent = null;
+}
