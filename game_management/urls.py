@@ -14,7 +14,11 @@ urlpatterns = [
     path('masters', views.masters, name='masters'),
     path('results', views.results, name='results'),
     path('rating', views.rating, name='rating'),
+
     path('promo', views.promo, name='promo'),
+    path('promo/update_promo', views.update_promo, name='update_promo'),
+    path('promo/delete_promo', views.delete_promo, name='delete_promo'),
+
     path('glossary', views.glossary, name='glossary'),
     path('bot', views.bot, name='bot'),
 

@@ -3,34 +3,122 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Анонсы</title>
 <link href="{% static 'game_management/style.css' %}" rel="stylesheet" crossorigin="anonymous">
 </head>
 <body id="bg" style="background-image: url('{% static "img/back2.png"%}');">
 {%  include  'game_management/main.html' %}
-<br><br>
-
+{% if request.user.is_authenticated %}
+<div class="text-end m-2" style="width: 1400px;" >
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-  Launch demo modal
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#promoModal">
+  Добавить
 </button>
+</div>
+{% else %}<br><br>
+{% endif %}
+
+<table class="table table-hover">
+    <thead>
+    <tr class="table-primary">
+        <th>Дата</th>
+        <th colspan="2">Часть 1</th>
+        <th colspan="2">Часть 2</th>
+        <th colspan="2">Часть 3</th>
+        <th colspan="2">Часть 4</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for item in promo %}
+    <tr data-bs-toggle="modal" data-bs-target="#promoModal" data-id="{{ item.id }}" data-date="{{ item.promo_date }}"
+        data-par1="{{ item.par1 }}" data-text1="{{ item.text1 }}" data-par2="{{ item.par2 }}"
+        data-text2="{{ item.text2 }}" data-par3="{{ item.par3 }}" data-text3="{{ item.text3 }}"
+        data-par4="{{ item.par4 }}" data-text4="{{ item.text4 }}">
+        <td>
+            {{ item.promo_date|date:"d.m.Y" }}
+            <form action="{% url 'game_management:delete_promo' %}" method="post">
+            {% csrf_token %}
+                <input type="number" hidden name="pr_id" value="{{ item.id }}">
+                <button type="submit" class="btn btn-sm btn-outline-danger mt-3 text-nowrap">
+                    <i class="bi bi-x-lg"></i>&nbsp;Удалить
+                </button>
+            </form>
+        </td>
+        <td style="max-width: 25px;">{{ item.par1 }}</td>
+        <td>{{ item.text1 }}</td>
+        <td style="max-width: 25px;">{{ item.par2 }}</td>
+        <td>{{ item.text2 }}</td>
+        <td style="max-width: 25px;">{{ item.par3 }}</td>
+        <td>{{ item.text3 }}</td>
+        <td style="max-width: 25px;">{{ item.par4 }}</td>
+        <td>{{ item.text4 }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
+<div class="modal fade" id="promoModal" tabindex="-1" aria-labelledby="promoModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <h5 class="modal-title" id="promoModalLabel">Анонс</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
+      <form action="{% url 'game_management:update_promo' %}" method="post">
+      {%  csrf_token %}
       <div class="modal-body">
-        ...
+        <div class="row">
+        <div class="col-2 mb-1">
+        <input type="date" class="form-control" name="date" id="date" required>
+        </div>
+        <div class="col-auto mb-1">
+        <input type="text" class="form-control" name="promo_id" id="promo_id" readonly>
+        </div>
+        </div>
+        <div class="row">
+        <div class="col-2 mb-1">
+        <input type="text" class="form-control" name="par1" id="par1">
+        </div>
+        <div class="col-10 mb-1">
+            <textarea class="form-control" name="text1" id="text1"></textarea>
+        </div>
+        </div>
+        <div class="row">
+        <div class="col-2 mb-1">
+        <input type="text" class="form-control" name="par2" >
+        </div>
+        <div class="col-10 mb-1">
+            <textarea class="form-control" name="text2"></textarea>
+        </div>
+        </div>
+        <div class="row">
+        <div class="col-2 mb-1">
+        <input type="text" class="form-control" name="par3" >
+        </div>
+        <div class="col-10 mb-1">
+            <textarea class="form-control" name="text3"></textarea>
+        </div>
+        </div>
+        <div class="row">
+        <div class="col-2 mb-1">
+        <input type="text" class="form-control" name="par4">
+        </div>
+        <div class="col-10 mb-1">
+            <textarea class="form-control" name="text4"></textarea>
+        </div>
+        </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+        <button type="submit" class="btn btn-primary">Сохранить</button>
       </div>
+      </form>
     </div>
+
+
+
   </div>
 </div>
 </body>
