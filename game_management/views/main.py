@@ -11,8 +11,10 @@ from django.urls import reverse
 from django.contrib.auth import authenticate, login
 from game_management.forms import LoginForm
 import datetime
+from game_management.models import Promo
 
 # Create your views here.
 def index(request):
-    context = {}
+    promo = Promo.objects.filter(active=True).order_by('-promo_date').last()
+    context = {'promo': promo}
     return render(request, 'game_management/index.html', context)

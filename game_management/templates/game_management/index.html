@@ -9,8 +9,43 @@
 </head>
 <body id="bg" style="background-image: url('{% static "img/back2.png"%}');">
 {%  include  'game_management/main.html' %}
-<br><br>
-
+<br><br><br><br><br><br>
+<div class="row m-2">
+    <div class="col-2 text-end">
+        {{ promo.par1 }}
+    </div>
+    <div class="col-8">
+        {{ promo.text1 }}
+    </div>
+</div>
+<br>
+<div class="row m-2 text-end">
+    <div class="col-2">
+        {{ promo.par2 }}
+    </div>
+    <div class="col-8">
+        {{ promo.text2 }}
+    </div>
+</div>
+<br>
+<div class="row m-2 text-end">
+    <div class="col-2">
+        {{ promo.par3 }}
+    </div>
+    <div class="col-8">
+        {{ promo.text3 }}
+    </div>
+</div>
+<br>
+<div class="row m-2 text-end">
+    <div class="col-2">
+        {{ promo.par4 }}
+    </div>
+    <div class="col-8">
+        {{ promo.text4 }}
+    </div>
+</div>
+<br>
 
 
 <br><br>
