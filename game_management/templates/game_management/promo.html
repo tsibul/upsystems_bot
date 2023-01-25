@@ -34,7 +34,8 @@
         data-date="{{ item.promo_date|date:'Y-m-d' }}"
         data-par1="{{ item.par1 }}" data-text1="{{ item.text1 }}" data-par2="{{ item.par2 }}"
         data-text2="{{ item.text2 }}" data-par3="{{ item.par3 }}" data-text3="{{ item.text3 }}"
-        data-par4="{{ item.par4 }}" data-text4="{{ item.text4 }}" onclick="fillPromoModal(this);">
+        data-par4="{{ item.par4 }}" data-text4="{{ item.text4 }}" onclick="fillPromoModal(this);"
+        class="bg-light bg-opacity-50">
         <td>
             {{ item.promo_date|date:"d.m.Y" }}
             <form action="{% url 'game_management:delete_promo' %}" method="post">
