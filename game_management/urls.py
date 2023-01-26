@@ -9,7 +9,10 @@ urlpatterns = [
     path('accounts/login/', auth_views.LoginView.as_view()),
     path('accounts/logout/', auth_views.LogoutView.as_view()),
     path('accounts/logout-then-login/', auth_views.logout_then_login),
+
     path('schedule', views.schedule, name='schedule'),
+    path('schedule/schedule_update', views.schedule_update, name='schedule_update'),
+
     path('members', views.members, name='members'),
     path('masters', views.masters, name='masters'),
     path('results', views.results, name='results'),

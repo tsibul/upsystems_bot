@@ -93,3 +93,31 @@ function clearPromoModal(){
     document.getElementById('par4').value = null;
     document.getElementById('text4').textContent = null;
 }
+
+function fillSchModal(obj){
+    unBlock('save');
+    document.getElementById('sch_id').value = obj.dataset.id;
+    document.getElementById('date').value = obj.dataset.date;
+    document.getElementById('time_begin').value = obj.dataset.begin;
+    document.getElementById('time_end').value = obj.dataset.end;
+    document.getElementById('location').value = obj.dataset.location;
+    document.getElementById('game').value = obj.dataset.game;
+
+}
+
+function clearSchModal() {
+    document.getElementById('sch_id').value = null;
+    document.getElementById('date').value = null;
+    document.getElementById('time_begin').value = null;
+    document.getElementById('time_end').value = null;
+    document.getElementById('location').value = null;
+    document.getElementById('game').value = null;
+}
+
+function butBlock(obj){
+    obj.disabled = true;
+}
+
+function unBlock(id){
+    document.getElementById(id).disabled = false;
+}
