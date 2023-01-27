@@ -1,5 +1,4 @@
 from django.db import models
-from django.contrib.auth.models import User
 from django.core.files.storage import FileSystemStorage
 from django.contrib.auth.models import User
 from auditlog.registry import auditlog
@@ -80,7 +79,7 @@ class MemberResult (models.Model):
 
 class Member (models.Model):
     """ Club members table """
-    tg_id = models.IntegerField(default=0)
+    tg_id = models.BigIntegerField(default=0)
     tg_name = models.CharField(max_length=255)
     date_birth = models.DateField(default='', blank=True, null=True)
     nickname = models.CharField(max_length=255, default='', null=True, blank=True)
