@@ -1,8 +1,12 @@
 #!/usr/bin/python
+import django
 
 # This is a simple echo bot using the decorator mechanism.
 # It echoes any incoming text messages.
 # https://t.me/Mafia_upsys_bot
+django.setup()
+from game_management.models import *
+
 
 import telebot
 import configparser
@@ -30,7 +34,9 @@ I am here to echo your kind words back to you. Just say anything nice and I'll s
 # Handle all other messages with content_type 'text' (content_types defaults to ['text'])
 @bot.message_handler(func=lambda message: True)
 def echo_message(message):
-    bot.reply_to(message, message.text)
+    schedule = Schedule.objects.filter(active=True)
+    loc = Location.objects.get(id=1)
+    bot.reply_to(message, loc.location_photo)
 
 
 bot.infinity_polling()
