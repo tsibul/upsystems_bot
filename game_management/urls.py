@@ -1,7 +1,9 @@
 from django.urls import path
 from . import views
 from django.contrib.auth import views as auth_views
+#from game_management.views.tg_bot import bot_run
 
+#bot_run()
 app_name = 'game_management'
 
 urlpatterns = [
