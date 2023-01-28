@@ -20,6 +20,7 @@ def update_promo(request):
     text3 = request.POST['text3']
     par4 = request.POST['par4']
     text4 = request.POST['text4']
+    promo_type = request.POST['promo_type']
     try:
         promo_id = request.POST['promo_id']
         promo = Promo.objects.get(id=promo_id)
@@ -34,6 +35,7 @@ def update_promo(request):
     promo.text3 = text3
     promo.par4 = par4
     promo.text4 = text4
+    promo.promo_type = promo_type
     promo.save()
     return HttpResponseRedirect(reverse('game_management:promo'))
 

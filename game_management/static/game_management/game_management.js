@@ -70,6 +70,7 @@ function cleaLocationModal(){
 
 function fillPromoModal(thisObj){
     document.getElementById('promo_id').value = thisObj.dataset.id;
+    document.getElementById('promo_type').value = thisObj.dataset.type;
     document.getElementById('date').value = thisObj.dataset.date;
     document.getElementById('par1').value = thisObj.dataset.par1;
     document.getElementById('text1').textContent = thisObj.dataset.text1;
@@ -83,6 +84,7 @@ function fillPromoModal(thisObj){
 
 function clearPromoModal(){
     document.getElementById('promo_id').value = null;
+    document.getElementById('promo_type').value = null;
     document.getElementById('date').value = null;
     document.getElementById('par1').value = null;
     document.getElementById('text1').textContent = null;

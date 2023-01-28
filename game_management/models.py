@@ -220,6 +220,7 @@ class Promo (models.Model):
     par4 = models.CharField(max_length=10)
     text4 = models.CharField(max_length=400)
     active = models.BooleanField(default=True)
+    promo_type = models.CharField(max_length=30, default='О нас')
 
     def __repr__(self):
         return 'promo ' + str(self.promo_date)
