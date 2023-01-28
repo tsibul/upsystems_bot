@@ -77,22 +77,73 @@ class MemberResult (models.Model):
         return self.member_result
 
 
+class Lead (models.Model):
+    tg_id = models.BigIntegerField(default=0)
+    phone_no = models.CharField(max_length=14, default='')
+    tg_name = models.CharField(max_length=255, null=True)
+    tg_first_name = models.CharField(max_length=255, default='', blank=True)
+    tg_last_name = models.CharField(max_length=255, default='', blank=True, null=True)
+    tg_name2 = models.CharField(max_length=255, default='', blank=True)
+    lead_date = models.DateField(default=None, null=True)
+
+    def __repr__(self):
+        if self.tg_name:
+            return '@' + self.tg_name
+        elif self.tg_last_name:
+            return '@' + self.tg_first_name + ' ' + self.tg_last_name
+        else:
+            return '@' + self.tg_first_name
+
+    def __str__(self):
+        if self.tg_name:
+            return '@' + self.tg_name
+        elif self.tg_last_name:
+            return '@' + self.tg_first_name + ' ' + self.tg_last_name
+        else:
+            return '@' + self.tg_first_name
+
+
 class Member (models.Model):
     """ Club members table """
-    tg_id = models.BigIntegerField(default=0)
-    tg_name = models.CharField(max_length=255)
+    lead = models.ForeignKey(Lead, on_delete=models.CASCADE, null=True)
     date_birth = models.DateField(default='', blank=True, null=True)
     nickname = models.CharField(max_length=255, default='', null=True, blank=True)
     photo = models.BooleanField(default=False)
     photo_file = models.FileField(storage=fs_members, null=True, blank=True)
     game_function = models.ForeignKey(GameFunction, models.SET_NULL, null=True)
     active = models.BooleanField(default=True)
+    registered_date = models.DateField(default=None, null=True)
 
     def __repr__(self):
-        return self.tg_name + ' '+ self.nickname
+        return self.lead.tg_name2 + ' ' + self.nickname
 
     def __str__(self):
         return self.nickname
+
+
+class LeadLog(models.Model):
+    member = models.ForeignKey(Member, models.SET_NULL, null=True)
+    lead = models.ForeignKey(Lead, models.SET_NULL, null=True)
+    date_time = models.DateTimeField(default=datetime.datetime.now())
+    log_type = models.CharField(max_length=40, null=True, blank=True)
+
+    def __repr__(self):
+        if self.lead.tg_name:
+            return str(self.date_time) + ' @' + self.lead.tg_name + ' ' + self.log_type
+        elif self.lead.tg_last_name:
+            return str(self.date_time) + ' @' + self.lead.tg_first_name + ' ' + ' ' + self.lead.tg_last_name + ' ' \
+                   + self.log_type
+        else:
+            return str(self.date_time) + ' @' + self.lead.tg_first_name + ' ' + self.log_type
+
+    def __str__(self):
+        if self.lead.tg_name:
+            return str(self.date_time) + ' @' + self.lead.tg_name + ' ' + self.log_type
+        elif self.lead.tg_last_name:
+            return str(self.date_time) + ' @' + self.lead.tg_first_name + ' ' + ' ' + self.lead.tg_last_name + ' ' \
+                   + self.log_type
+        else:
+            return str(self.date_time) + ' @' + self.lead.tg_first_name + ' ' + self.log_type
 
 
 class Location(models.Model):
@@ -241,3 +292,4 @@ auditlog.register(Promo)
 auditlog.register(RegisteredToGame)
 auditlog.register(GameInSchedule)
 auditlog.register(MemberInGame)
+auditlog.register(Lead)
