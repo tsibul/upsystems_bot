@@ -3,7 +3,7 @@ import datetime
 from game_management.models import Member, Lead, LeadLog
 from backinfo import standard_commands as st
 from promo import promo_text, price_text, discount_text, member_rating, master_rating
-from schedule import schedule_text
+from schedule import schedule_date_game
 from datetime import date, timezone
 
 def hello_user(msg):
@@ -26,12 +26,13 @@ def check_button(txt):
     elif ind == 2:
         text = member_rating()
     elif ind == 3:
-        text = schedule_text()
+        text = schedule_date_game()
     elif ind == 4:
         text = price_text()
     elif ind == 5:
         text = discount_text()
     else:
+        ...
         text = 'under construction'
     return text
 
