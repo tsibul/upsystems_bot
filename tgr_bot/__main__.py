@@ -46,7 +46,7 @@ def check_messages(message):
    bot.send_message(chat_id, check_button(message.text), parse_mode='MarkdownV2')
 
 
-@bot.message_handler(content_types=['text'], func=lambda message: message.text == 'Отмена')
+@bot.message_handler(content_types=['text'], func=lambda message: message.text == 'Отмена' or message.text == 'На главную')
 def check_messages(message):
     chat_id = message.from_user.id
     user_check = check_user(message.from_user)
