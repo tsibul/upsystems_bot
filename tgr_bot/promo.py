@@ -1,4 +1,5 @@
 from game_management.models import Promo
+from backinfo import promo_relpace
 
 def promo_text():
     promo = Promo.objects.filter(active=True, promo_type='О нас').order_by('-promo_date').first()
@@ -6,7 +7,7 @@ def promo_text():
                 '\t' + promo.par2 + '\t' + promo.text2 + '\n\n' + \
                 '\t' + promo.par3 + '\t' + promo.text3 + '\n\n' + \
                 '\t' + promo.par4 + '\t' + promo.text4
-    return promo_txt
+    return promo_relpace(promo_txt)
 
 
 def price_text():
@@ -15,7 +16,7 @@ def price_text():
                 '\t' + promo.par2 + '\t' + promo.text2 + '\n\n' + \
                 '\t' + promo.par3 + '\t' + promo.text3 + '\n\n' + \
                 '\t' + promo.par4 + '\t' + promo.text4
-    return price_txt
+    return promo_relpace(price_txt)
 
 
 def discount_text():
@@ -25,7 +26,7 @@ def discount_text():
                 '\t' + promo.par3 + '\t' + promo.text3 + '\n\n' + \
                 '\t' + promo.par4 + '\t' + promo.text4
 
-    return discount_txt
+    return promo_relpace(discount_txt)
 
 
 def member_rating():
@@ -35,7 +36,7 @@ def member_rating():
                 '\t' + promo.par3 + '\t' + promo.text3 + '\n\n' + \
                 '\t' + promo.par4 + '\t' + promo.text4
 
-    return member_txt
+    return promo_relpace(member_txt)
 
 
 def master_rating():
@@ -45,4 +46,4 @@ def master_rating():
                 '\t' + promo.par3 + '\t' + promo.text3 + '\n\n' + \
                 '\t' + promo.par4 + '\t' + promo.text4
 
-    return master_txt
+    return promo_relpace(master_txt)
