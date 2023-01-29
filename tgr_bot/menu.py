@@ -63,3 +63,23 @@ def master_buttons():
     markup.add(call_back, order_event, schedule, who_registered, to_register,
                decline_register, vote_masters, masters_rating, members_rating)
     return markup
+
+
+def give_number():
+    markup = types.ReplyKeyboardMarkup(row_width=1)
+    give_phone = types.KeyboardButton('Обратный звонок', request_contact=True)
+    discard = types.KeyboardButton('Отменить')
+    markup.add(give_phone, discard)
+    return markup
+
+
+def order_event():
+    markup = types.ReplyKeyboardMarkup()
+    animator = types.KeyboardButton('Выезд ведущего', request_contact=True)
+    event_online = types.KeyboardButton('Мероприятие Online')
+    play_in_club = types.KeyboardButton('Поиграть своей компанией в клубе', request_contact=True)
+    call_back = types.KeyboardButton('Обратный звонок')
+    discard = types.KeyboardButton('На главную')
+    markup.row(animator, event_online)
+    markup.row(play_in_club, call_back, discard)
+    return markup
