@@ -1,4 +1,3 @@
-import telebot
 from telebot import types
 
 
@@ -67,8 +66,8 @@ def master_buttons():
 
 def give_number():
     markup = types.ReplyKeyboardMarkup(row_width=1)
-    give_phone = types.KeyboardButton('Обратный звонок', request_contact=True)
-    discard = types.KeyboardButton('Отменить')
+    give_phone = types.KeyboardButton('Предоставить номер телефона', request_contact=True)
+    discard = types.KeyboardButton('Отмена')
     markup.add(give_phone, discard)
     return markup
 
@@ -82,4 +81,12 @@ def order_event():
     discard = types.KeyboardButton('На главную')
     markup.row(animator, event_online)
     markup.row(play_in_club, call_back, discard)
+    return markup
+
+
+def member_register():
+    markup = types.ReplyKeyboardMarkup(row_width=1)
+    fill = types.KeyboardButton('Заполнить')
+    discard = types.KeyboardButton('Отмена')
+    markup.add(fill, discard)
     return markup
