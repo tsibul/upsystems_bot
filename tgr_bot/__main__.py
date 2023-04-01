@@ -30,6 +30,8 @@ bot.set_my_commands([
 ])
 
 
+# Handle commands #######################
+
 @bot.message_handler(commands=['help', 'start'])
 def send_welcome(message):
     chat_id = message.from_user.id
@@ -37,10 +39,29 @@ def send_welcome(message):
     name = hello_user(message.from_user)
     bot.send_message(chat_id, "Привет, " + name, reply_markup=show_buttons(user_check), parse_mode='MarkdownV2')
 
-# Handle all other messages with content_type 'text' (content_types defaults to ['text'])
-#@bot.message_handler(func=lambda message)
-#def
 
+@bot.message_handler(commands=['sign_in'])
+def sign_in(message):
+    chat_id = message.from_user.id
+    if check_phone(chat_id) == '':
+        return bot.send_message(chat_id, text='Предоставить номер телефона', reply_markup=give_number(),
+                                parse_mode='MarkdownV2')
+    bot.send_message(chat_id, '*Заполнить информацию о себе* \n ↓\t\t\t\t\t\t\t\t\t\t↓\t\t\t\t\t\t\t\t\t\t\t↓\t\t\t\t'
+                              '\t\t\t\t\t\t\t↓', reply_markup=member_register(), parse_mode='MarkdownV2')
+
+
+# Handle contacts ######################
+
+@bot.message_handler(content_types=['contact'])
+def check_messages(message):
+    chat_id = message.from_user.id
+    phone = message.contact.phone_number
+    add_phone_no(chat_id, phone)
+    bot.send_message(chat_id, '*Вы можете заполнить информацию о себе* \n ↓\t\t\t\t\t\t\t\t\t\t↓\t\t\t\t\t\t\t\t\t\t\t↓\t\t\t\t'
+                              '\t\t\t\t\t\t\t↓', reply_markup=member_register(), parse_mode='MarkdownV2')
+
+
+# Handle text #############################
 
 @bot.message_handler(content_types=['text'], func=lambda message: message.text in standard_commands)
 def check_messages(message):
@@ -64,27 +85,8 @@ def check_messages(message):
    bot.send_message(chat_id, 'записаться на игру')
 
 
-@bot.message_handler(content_types=['contact'])
-def check_messages(message):
-    chat_id = message.from_user.id
-    phone = message.contact.phone_number
-    add_phone_no(chat_id, phone)
-    bot.send_message(chat_id, '*Вы можете заполнить информацию о себе* \n ↓\t\t\t\t\t\t\t\t\t\t↓\t\t\t\t\t\t\t\t\t\t\t↓\t\t\t\t'
-                              '\t\t\t\t\t\t\t↓', reply_markup=member_register(), parse_mode='MarkdownV2')
-
-
-@bot.message_handler(commands=['sign_in'])
-def sign_in(message):
-    chat_id = message.from_user.id
-    if check_phone(chat_id) == '':
-        return bot.send_message(chat_id, text='Предоставить номер телефона', reply_markup=give_number(),
-                                parse_mode='MarkdownV2')
-    bot.send_message(chat_id, '*Заполнить информацию о себе* \n ↓\t\t\t\t\t\t\t\t\t\t↓\t\t\t\t\t\t\t\t\t\t\t↓\t\t\t\t'
-                              '\t\t\t\t\t\t\t↓', reply_markup=member_register(), parse_mode='MarkdownV2')
-
-
 @bot.message_handler(content_types=['text'], func=lambda message: message.text in member_register_commands)
-def nickname_birth(message):
+def nickname_birth_photo(message):
    chat_id = message.from_user.id
    if message.text == 'Псевдоним':
        bot.send_message(chat_id, 'введите псевдоним')
@@ -104,7 +106,7 @@ def echo_message(message):
         give_number()
     bot.send_message(chat_id, ret_address())
 
-######################################
+# Handle next message #####################################
 
 def update_nick(message):
     chat_id = message.from_user.id
@@ -131,6 +133,8 @@ def update_photo(message):
     bot.send_message(chat_id,
                     '↓\t\t\t\t\t\t\t\t\t\t↓\t\t\t\t\t\t\t\t\t\t\t↓\t\t\t\t'
                     '\t\t\t\t\t\t\t↓', reply_markup=member_register(), parse_mode='MarkdownV2')
+
+#####################
 
 
 def run():
