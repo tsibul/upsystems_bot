@@ -1,5 +1,8 @@
+from django.core.files.base import File
+
 from game_management.models import Member, Lead, LeadLog, GameFunction
 import datetime
+import os
 from datetime import datetime
 
 
@@ -35,5 +38,17 @@ def update_birthdate(message):
         pass
 
 
-def update_photo_file(message):
-    message_id = message.from_user.id
+def update_photo_file(message_id, downloaded_file):
+    member = Member.objects.get(lead__tg_id=message_id)
+    file_name = str(message_id) + '.jpg'
+    try:
+        member.photo_file.delete()
+    except:
+        pass
+    with open(file_name, 'wb') as new_file:
+        new_file.write(downloaded_file)
+    with open(file_name, 'rb') as f:
+        member.photo_file.save(file_name, File(f))
+    member.photo = True
+    member.save()
+    os.remove(file_name)

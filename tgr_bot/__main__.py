@@ -124,7 +124,10 @@ def update_birth(message):
 
 def update_photo(message):
     chat_id = message.from_user.id
-    update_photo_file(message)
+    file_id = message.photo[-1].file_id
+    file_info = bot.get_file(file_id)
+    downloaded_file = bot.download_file(file_info.file_path)
+    update_photo_file(chat_id, downloaded_file)
     bot.send_message(chat_id,
                     '↓\t\t\t\t\t\t\t\t\t\t↓\t\t\t\t\t\t\t\t\t\t\t↓\t\t\t\t'
                     '\t\t\t\t\t\t\t↓', reply_markup=member_register(), parse_mode='MarkdownV2')
