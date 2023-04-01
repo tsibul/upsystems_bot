@@ -1,6 +1,3 @@
-from game_management.models import Schedule
-import datetime
-from datetime import date, timedelta
 from backinfo import weekday_rus, promo_relpace, date_loc_sch_dict, date_gam_sch_dict
 
 
