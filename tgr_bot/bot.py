@@ -2,7 +2,7 @@
 #from tgr_bot.filters.admin_filter import AdminFilter
 
 # handlers
-from handlers import send_welcome, echo_message
+#from handlers import send_welcome, echo_message
 #from tgbot.handlers.admin import admin_user
 #from tgbot.handlers.spam_command import anti_spam
 #from tgbot.handlers.user import any_user
