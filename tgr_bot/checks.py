@@ -2,6 +2,7 @@ import datetime
 
 from game_management.models import Member, Lead, LeadLog
 from backinfo import standard_commands as st
+from backinfo import phone_no_commands as ph
 from promo import promo_text, price_text, discount_text, member_rating, master_rating
 from schedule import schedule_date_game
 from datetime import date, timezone
@@ -36,6 +37,17 @@ def check_button(txt):
         text = 'under construction'
     return text
 
+def check_ph_button(txt):
+    ind = st.index(txt)
+    if ind == 0:
+        text = 'checkin_game'
+    elif ind == 1:
+        text = 'checkout_game'
+    elif ind == 2:
+        text = 'master_rating'
+
+
+
 def check_user(user):
     game_function = 'гость'
     try:
@@ -64,4 +76,11 @@ def check_user(user):
     leadlog = LeadLog(lead=lead, date_time=datetime.datetime.now(timezone.utc), log_type=log_type, member=member)
     leadlog.save()
     return game_function
+
+
+def check_phone(user_id):
+    return Lead.objects.get(tg_id=user_id).phone_no
+
+
+
 
