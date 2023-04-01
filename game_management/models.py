@@ -106,7 +106,7 @@ class Lead (models.Model):
 class Member (models.Model):
     """ Club members table """
     lead = models.ForeignKey(Lead, on_delete=models.CASCADE, null=True)
-    date_birth = models.DateField(default='', blank=True, null=True)
+    date_birth = models.DateField(default=None, blank=True, null=True)
     nickname = models.CharField(max_length=255, default='', null=True, blank=True)
     photo = models.BooleanField(default=False)
     photo_file = models.FileField(storage=fs_members, null=True, blank=True)
