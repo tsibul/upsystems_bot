@@ -12,9 +12,9 @@ standard_commands = [
 ]
 
 phone_no_commands = [
+    'Записаться на игру',
     'Отменить запись',
     'Оценить ведущих',
-    'Заказать мероприятие',
 ]
 
 call_back_commands = [
@@ -22,7 +22,7 @@ call_back_commands = [
 ]
 
 order_event_commands = [
-    'Записаться на игру',
+    'Заказать мероприятие',
 ]
 
 
