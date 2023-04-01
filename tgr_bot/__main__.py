@@ -23,7 +23,7 @@ bot = telebot.TeleBot(API_TOKEN, num_threads=5)
 bot.set_my_commands([
     telebot.types.BotCommand("/start", "запуск"),
     telebot.types.BotCommand("/help", "помощь"),
-    telebot.types.BotCommand("/sign_in", "подписаться"),
+    telebot.types.BotCommand("/sign_in", "заполнить информацию о себе"),
     telebot.types.BotCommand("/register", "записаться на игру"),
     telebot.types.BotCommand("/schedule", "расписание"),
     telebot.types.BotCommand("/call", "обратный звонок"),
@@ -73,7 +73,14 @@ def check_messages(message):
                               '\t\t\t\t\t\t\t↓', reply_markup=member_register(), parse_mode='MarkdownV2')
 
 
-
+@bot.message_handler(commands=['sign_in'])
+def sign_in(message):
+    chat_id = message.from_user.id
+    if check_phone(chat_id) == '':
+        return bot.send_message(chat_id, text='Предоставить номер телефона', reply_markup=give_number(),
+                                parse_mode='MarkdownV2')
+    bot.send_message(chat_id, '*Заполнить информацию о себе* \n ↓\t\t\t\t\t\t\t\t\t\t↓\t\t\t\t\t\t\t\t\t\t\t↓\t\t\t\t'
+                              '\t\t\t\t\t\t\t↓', reply_markup=member_register(), parse_mode='MarkdownV2')
 
 
 @bot.message_handler(func=lambda message: True)

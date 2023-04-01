@@ -85,8 +85,11 @@ def order_event():
 
 
 def member_register():
-    markup = types.ReplyKeyboardMarkup(row_width=1)
-    fill = types.KeyboardButton('Заполнить')
+    markup = types.ReplyKeyboardMarkup()
+    nickname = types.KeyboardButton('Псевдоним')
+    photo = types.KeyboardButton('Фото')
+    birth_date = types.KeyboardButton('Дата рождения')
     discard = types.KeyboardButton('Отмена')
-    markup.add(fill, discard)
+    markup.row(nickname, photo, birth_date)
+    markup.row(discard)
     return markup
