@@ -7,9 +7,9 @@ import configparser
 
 from locations import ret_address
 from checks import hello_user, check_button, check_user, check_phone
-from backinfo import standard_commands, phone_no_commands
+from backinfo import standard_commands, phone_no_commands, member_register_commands
 from menu import show_buttons, give_number, member_register
-from members import add_phone_no
+from members import add_phone_no, update_nickname, update_birthdate, update_photo_file
 
 config = configparser.RawConfigParser()
 config.read('config.cfg')
@@ -83,6 +83,20 @@ def sign_in(message):
                               '\t\t\t\t\t\t\t↓', reply_markup=member_register(), parse_mode='MarkdownV2')
 
 
+@bot.message_handler(content_types=['text'], func=lambda message: message.text in member_register_commands)
+def nickname_birth(message):
+   chat_id = message.from_user.id
+   if message.text == 'Псевдоним':
+       bot.send_message(chat_id, 'введите псевдоним')
+       bot.register_next_step_handler(message, update_nick)
+   elif message.text == 'Дата рождения':
+       bot.send_message(chat_id, 'введите дату рождения в формате дд.мм.ГГГГ')
+       bot.register_next_step_handler(message, update_birth)
+   else:
+       bot.send_message(chat_id, 'загрузите фото')
+       bot.register_next_step_handler(message, update_photo)
+
+
 @bot.message_handler(func=lambda message: True)
 def echo_message(message):
     chat_id = message.from_user.id
@@ -90,7 +104,35 @@ def echo_message(message):
         give_number()
     bot.send_message(chat_id, ret_address())
 
+######################################
+
+def update_nick(message):
+    chat_id = message.from_user.id
+    update_nickname(message)
+    bot.send_message(chat_id,
+                    '↓\t\t\t\t\t\t\t\t\t\t↓\t\t\t\t\t\t\t\t\t\t\t↓\t\t\t\t'
+                    '\t\t\t\t\t\t\t↓', reply_markup=member_register(), parse_mode='MarkdownV2')
+
+
+def update_birth(message):
+    chat_id = message.from_user.id
+    update_birthdate(message)
+    bot.send_message(chat_id,
+                    '↓\t\t\t\t\t\t\t\t\t\t↓\t\t\t\t\t\t\t\t\t\t\t↓\t\t\t\t'
+                    '\t\t\t\t\t\t\t↓', reply_markup=member_register(), parse_mode='MarkdownV2')
+
+
+def update_photo(message):
+    chat_id = message.from_user.id
+    update_photo_file(message)
+    bot.send_message(chat_id,
+                    '↓\t\t\t\t\t\t\t\t\t\t↓\t\t\t\t\t\t\t\t\t\t\t↓\t\t\t\t'
+                    '\t\t\t\t\t\t\t↓', reply_markup=member_register(), parse_mode='MarkdownV2')
+
+
 def run():
     bot.infinity_polling()
 
 run()
+
+

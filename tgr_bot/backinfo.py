@@ -25,6 +25,12 @@ order_event_commands = [
     'Заказать мероприятие',
 ]
 
+member_register_commands = [
+    'Псевдоним',
+    'Дата рождения',
+    'Фото'
+]
+
 
 def weekday_rus(date):
     if date.weekday() == 0:
