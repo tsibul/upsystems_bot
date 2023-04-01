@@ -11,7 +11,7 @@ from game_management.models import *
 import telebot
 import configparser
 import os
-cfg = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'config.cfg')
+cfg = os.path.join(os.path.dirname(os.path.dirname(__file__)), '../../config.cfg')
 config = configparser.RawConfigParser()
 config.read(cfg)
 config_dict = dict(config.items('TG_BOT'))
