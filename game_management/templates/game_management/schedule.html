@@ -31,11 +31,11 @@
       <div class="modal-body">
        <div class="row">
            <div class="col">
-               <input type="number" class="form-control" name="sch_id" id="sch_id" disabled>
+               <input type="number" class="form-control" name="sch_id" id="sch_id" readonly>
            </div>
            <div class="col">
                <label for="date">дата</label>
-               <input type="date" class="form-control" name="date" id="date" required>
+               <input type="date" class="form-control" name="date" id="date" value="" required>
            </div>
        </div>
        <div class="row">
@@ -120,7 +120,7 @@
     </tr>
         {% for item in items %}
     <tr data-bs-toggle="modal" data-bs-target="#schModal" onclick="fillSchModal(this);" data-id="{{ item.id }}"
-        data-date="{{ item.date }}" data-begin="{{ item.schedule_time_begin|time:"G:i"}}"
+        data-date="{{ item.date|date:"Y-m-d" }}" data-begin="{{ item.schedule_time_begin|time:"G:i"}}"
         data-end="{{ item.schedule_time_end|time:"G:i"}}" data-location="{{ item.location.id }}"
         data-game="{{ item.game.id }}"  class="bg-light bg-opacity-75">
         <td>{{ item.schedule_time_begin|time:"G:i"}}</td>
@@ -140,7 +140,7 @@
     </tr>
         {% for item in items %}
     <tr data-bs-toggle="modal" data-bs-target="#schModal" onclick="fillSchModal(this);" data-id="{{ item.id }}"
-        data-date="{{ item.date }}" data-begin="{{ item.schedule_time_begin|time:"G:i"}}"
+        data-date="{{ item.date|date:"Y-m-d" }}" data-begin="{{ item.schedule_time_begin|time:"G:i"}}"
         data-end="{{ item.schedule_time_end|time:"G:i"}}" data-location="{{ item.location.id }}"
         data-game="{{ item.game.id }}" class="bg-light bg-opacity-75">
         <td>{{ item.schedule_time_begin|time:"G:i"}}</td>
