@@ -57,10 +57,11 @@ def promo_relpace(txt):
     txt4 = txt3.replace('_', '\_')
     return txt4
 
+
 def date_loc_sch_dict():
-    date_start = date.today() - timedelta(days=date.today().weekday())
-    schedule = Schedule.objects.filter(date__gte=date_start, active=True, date__lte=(date_start + timedelta(days=6))).\
-               order_by('date')
+    date_start = date.today()  # - timedelta(days=date.today().weekday())
+    schedule = Schedule.objects.filter(date__gte=date_start, active=True, date__lte=(date_start + timedelta(days=6))). \
+        order_by('date')
     sch_dict = {}
     for sch in schedule:
         if sch.date not in sch_dict:
@@ -70,10 +71,11 @@ def date_loc_sch_dict():
         sch_dict[sch.date][sch.location].append(sch)
     return sch_dict
 
+
 def date_gam_sch_dict():
-    date_start = date.today() - timedelta(days=date.today().weekday())
-    schedule = Schedule.objects.filter(date__gte=date_start, active=True, date__lte=(date_start + timedelta(days=6))).\
-               order_by('date')
+    date_start = date.today()  # - timedelta(days=date.today().weekday())
+    schedule = Schedule.objects.filter(date__gte=date_start, active=True, date__lte=(date_start + timedelta(days=6))). \
+        order_by('date')
     sch_dict = {}
     for sch in schedule:
         if sch.date not in sch_dict:
