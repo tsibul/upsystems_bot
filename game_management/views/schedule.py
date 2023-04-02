@@ -8,6 +8,7 @@ from django.core.paginator import Paginator
 
 @login_required()
 def schedule(request):
+    date_now = datetime.date.today()
     schedule_cur = Schedule.objects.filter(active=True).order_by('-date', 'schedule_time_begin')
     games = GameType.objects.filter(active=True).order_by('game_name')
     location = Location.objects.filter(active=True).order_by('location_name')
@@ -29,9 +30,8 @@ def schedule(request):
     page_obj = paginator.get_page(page_number)
     schedule = dict(page_obj.object_list)
 
-
     context = {'schedule_last': schedule_last, 'date_start': date_start, 'page_obj': page_obj, 'games': games,
-               'location': location, 'schedule': schedule}
+               'location': location, 'schedule': schedule, 'date_now': date_now}
     return render(request, 'game_management/schedule.html', context)
 
 
