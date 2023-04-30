@@ -38,13 +38,14 @@ def check_button(txt):
     return text
 
 def check_ph_button(txt):
-    ind = st.index(txt)
+    ind = ph.index(txt)
     if ind == 0:
         text = 'checkin_game'
     elif ind == 1:
         text = 'checkout_game'
     elif ind == 2:
         text = 'master_rating'
+    return text
 
 
 
