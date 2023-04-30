@@ -111,14 +111,38 @@ def game_register_menu_date(lead_id, register_type):
             markup.row(msg_text)
     elif register_type == 'checkout_game':
         games_registered = RegisteredToGame.objects.filter(member__lead__tg_id=lead_id, schedule__date__gte=today,
-                                                           schedule__date__lte=today + timedelta(days=6)).values_list(
+                                                           schedule__date__lte=today + timedelta(days=6),
+                                                           active=True).values_list(
             'schedule__date', flat=True).distinct().order_by('schedule__date')
         for game in games_registered:
-            msg_text = weekday_rus(game) + ' ' + game.strftime('%d.%m.%Y') + ' Записаться'
+            msg_text = weekday_rus(game) + ' ' + game.strftime('%d.%m.%Y') + '  Отменить запись'
             markup.row(msg_text)
     elif register_type == 'master_rating':
         game_masters = Member.objects.filter(game_function__game_function='ведущий')
         for master in game_masters:
             markup.row(master + ' Оценить')
+    markup.row('Отмена')
+    return markup
+
+
+def game_register_menu_location(lead_id, register_type, register_date):
+    markup = types.ReplyKeyboardMarkup()
+    if register_type == 'checkin_game':
+        games_available = Schedule.objects.filter(date=register_date).order_by('location__location_name',
+                                                                               'schedule_time_begin')
+        for game in games_available:
+            msg_text = game.location.location_name + ', ' + game.game.game_name + ', ' + \
+                       game.date.strftime('%d.%m.%Y') + ", с " + game.schedule_time_begin.strftime('%H:%M') \
+                       + ' до ' + game.schedule_time_end.strftime('%H:%M') + ', Записаться на игру'
+            markup.row(msg_text)
+    elif register_type == 'checkout_game':
+        games_registered = RegisteredToGame.objects.filter(member__lead__tg_id=lead_id,
+                                                           schedule__date=register_date, active=True).order_by(
+            'schedule__location__location_name', 'schedule__schedule_time_begin')
+        for game in games_registered:
+            msg_text = game.schedule.location.location_name + ', ' + game.schedule.game.game_name + ', ' + \
+                       game.schedule.date.strftime('%d.%m.%Y') + ", с " + game.schedule.schedule_time_begin.strftime(
+                '%H:%M') + ' до ' + game.schedule.schedule_time_end.strftime('%H:%M') + ', Отменить запись на игру'
+            markup.row(msg_text)
     markup.row('Отмена')
     return markup
