@@ -1,3 +1,5 @@
+import datetime
+
 import django
 
 django.setup()
@@ -7,10 +9,10 @@ import configparser
 
 from locations import ret_address
 from checks import hello_user, check_button, check_user, check_phone, check_ph_button
-from backinfo import standard_commands, phone_no_commands, member_register_commands
-from menu import show_buttons, give_number, member_register, game_register_menu_date
+from backinfo import standard_commands, phone_no_commands, member_register_commands, week_days
+from menu import show_buttons, give_number, member_register, game_register_menu_date, game_register_menu_location
 from members import add_phone_no, update_nickname, update_birthdate, update_photo_file
-from game_register import *
+from game_register import game_register
 
 config = configparser.RawConfigParser()
 config.read('config.cfg')
@@ -88,6 +90,44 @@ def check_messages_phone_no_commands(message):
                                 parse_mode='MarkdownV2')
     register_type = check_ph_button(message.text)
     bot.send_message(chat_id, 'выберите', reply_markup=game_register_menu_date(chat_id, register_type))
+
+
+@bot.message_handler(content_types=['text'], func=lambda message: message.text.split()[0] in week_days)
+def check_messages_dates(message):
+    chat_id = message.from_user.id
+    if message.text.split()[-1] == 'Записаться':
+        register_type = 'checkin_game'
+    else:
+        register_type = 'checkout_game'
+    register_date = datetime.datetime.strptime(message.text.split()[1], '%d.%m.%Y').date()
+    bot.send_message(chat_id, 'выберите',
+                     reply_markup=game_register_menu_location(chat_id, register_type, register_date))
+
+
+@bot.message_handler(content_types=['text'], func=lambda message: message.text.split()[-1] == 'игру')
+def check_messages_dates(message):
+    chat_id = message.from_user.id
+    user_check = check_user(message.from_user)
+    if len(message.text.split(',')) == 5:
+        if message.text.split()[-3] == 'Записаться':
+            register_type = 'checkin_game'
+            register_text = 'Зарегистрировано'
+        else:
+            register_type = 'checkout_game'
+            register_text = 'Запись отменена'
+        register_location = message.text.split(',')[0].strip()
+        register_game = message.text.split(',')[1].strip()
+        register_date = datetime.datetime.strptime(message.text.split(',')[2].strip(), '%d.%m.%Y').date()
+        register_time_begin = datetime.datetime.strptime(message.text.split(',')[3].split()[1], '%H:%M').time()
+        register_time_end = datetime.datetime.strptime(message.text.split(',')[3].split()[3], '%H:%M').time()
+        register_error = game_register(chat_id, register_type, register_location, register_game, register_date,
+                                       register_time_begin, register_time_end)
+        if not register_error:
+            register_text = 'не удалось'
+        bot.send_message(chat_id, register_text, reply_markup=show_buttons(user_check))
+    else:
+        bot.send_message(chat_id, '*Выберите пункт меню* \n ↓\t\t\t\t\t\t\t\t\t\t↓\t\t\t\t\t\t\t\t\t\t\t↓\t\t\t\t'
+                                  '\t\t\t\t\t\t\t↓', reply_markup=show_buttons(user_check), parse_mode='MarkdownV2')
 
 
 @bot.message_handler(content_types=['text'], func=lambda message: message.text in member_register_commands)
