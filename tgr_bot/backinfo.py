@@ -31,6 +31,16 @@ member_register_commands = [
     'Фото'
 ]
 
+week_days = [
+    'ПОНЕДЕЛЬНИК',
+    'ВТОРНИК',
+    'СРЕДА',
+    'ЧЕТВЕРГ',
+    'ПЯТНИЦА',
+    'СУББОТА',
+    'ВОСКРЕСЕНЬЕ'
+]
+
 
 def weekday_rus(date):
     if date.weekday() == 0:
