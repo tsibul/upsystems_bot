@@ -4,3 +4,8 @@
     background-position: top;
     background-attachment: fixed;
 }
+
+.hov:hover{
+    background-color: lightgoldenrodyellow;
+    color: #fc104f
+}
