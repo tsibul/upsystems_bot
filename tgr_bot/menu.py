@@ -146,3 +146,31 @@ def game_register_menu_location(lead_id, register_type, register_date):
             markup.row(msg_text)
     markup.row('Отмена')
     return markup
+
+
+def who_checked_date():
+    markup = types.ReplyKeyboardMarkup()
+    today = datetime.date.today()
+    i = 0
+    while i < 7:
+        curr_date = today + timedelta(days=i)
+        number_registered = RegisteredToGame.objects.filter(schedule__date=curr_date, active=True).count()
+        if number_registered != 0:
+            markup.row(weekday_rus(curr_date) + ', ' + curr_date.strftime('%d.%m.%Y') + ', ' + \
+                       str(number_registered) + ' зарегистрировано')
+        i += 1
+    markup.row('Отмена')
+    return markup
+
+
+def who_checked_location(date):
+    markup = types.ReplyKeyboardMarkup()
+    schedule = Schedule.objects.filter(date=date, active=True)
+    for game in schedule:
+        checked = RegisteredToGame.objects.filter(schedule=game, active=True).count()
+        if checked != 0:
+            markup_text = 'Игра #' + str(game.id) + ' ' + game.location.location_name + ' ' + game.game.game_name + ' ' + \
+                          game.schedule_time_begin.strftime('%H:%M') + ' => ' + str(checked) + ' записано'
+            markup.row(markup_text)
+    markup.row('Отмена')
+    return markup

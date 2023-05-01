@@ -10,9 +10,10 @@ import configparser
 from locations import ret_address
 from checks import hello_user, check_button, check_user, check_phone, check_ph_button
 from backinfo import standard_commands, phone_no_commands, member_register_commands, week_days
-from menu import show_buttons, give_number, member_register, game_register_menu_date, game_register_menu_location
+from menu import show_buttons, give_number, member_register, game_register_menu_date, game_register_menu_location, \
+    who_checked_date, who_checked_location
 from members import add_phone_no, update_nickname, update_birthdate, update_photo_file
-from game_register import game_register
+from game_register import game_register, who_registered_persons,  who_registered_images
 
 config = configparser.RawConfigParser()
 config.read('config.cfg')
@@ -27,9 +28,9 @@ bot.set_my_commands([
     telebot.types.BotCommand("/start", "запуск"),
     telebot.types.BotCommand("/help", "помощь"),
     telebot.types.BotCommand("/sign_in", "заполнить информацию о себе"),
-    telebot.types.BotCommand("/register", "записаться на игру"),
-    telebot.types.BotCommand("/schedule", "расписание"),
-    telebot.types.BotCommand("/call", "обратный звонок"),
+#    telebot.types.BotCommand("/register", "записаться на игру"),
+#    telebot.types.BotCommand("/schedule", "расписание"),
+#    telebot.types.BotCommand("/call", "обратный звонок"),
 ])
 
 
@@ -70,7 +71,28 @@ def check_messages_contact(message):
 @bot.message_handler(content_types=['text'], func=lambda message: message.text in standard_commands)
 def check_messages_standard_commands(message):
     chat_id = message.from_user.id
-    bot.send_message(chat_id, check_button(message.text), parse_mode='MarkdownV2')
+    if message.text != 'Кто записан':
+        bot.send_message(chat_id, check_button(message.text), parse_mode='MarkdownV2')
+    else:
+        bot.send_message(chat_id, check_button(message.text), reply_markup=who_checked_date())
+
+
+@bot.message_handler(content_types=['text'], func=lambda message: message.text.split()[-1] == 'зарегистрировано')
+def check_messages_standard_commands(message):
+    chat_id = message.from_user.id
+    date = datetime.datetime.strptime(message.text.split(',')[1][1:], '%d.%m.%Y').date()
+    bot.send_message(chat_id, 'выберите место и время', reply_markup=who_checked_location(date))
+
+
+@bot.message_handler(content_types=['text'], func=lambda message: message.text.split()[-1] == 'записано')
+def check_messages_standard_commands(message):
+    chat_id = message.from_user.id
+    user_check = check_user(message.from_user)
+    game_id = int(message.text.split()[1][1:])
+    images = who_registered_images(game_id)
+    for image in images:
+        bot.send_photo(chat_id, photo=image)
+    bot.send_message(chat_id, who_registered_persons(game_id), reply_markup=show_buttons(user_check))
 
 
 @bot.message_handler(content_types=['text'],
@@ -144,13 +166,14 @@ def nickname_birth_photo(message):
         bot.register_next_step_handler(message, update_photo)
 
 
+'''
 @bot.message_handler(func=lambda message: True)
 def echo_message(message):
     chat_id = message.from_user.id
     if check_phone(chat_id) == '':
         give_number()
     bot.send_message(chat_id, ret_address())
-
+'''
 
 # Handle next message #####################################
 

@@ -6,6 +6,7 @@ from backinfo import phone_no_commands as ph
 from promo import promo_text, price_text, discount_text, member_rating, master_rating
 from schedule import schedule_date_game
 from datetime import date, timezone
+from game_register import registered_text
 
 def hello_user(msg):
     lead_id = msg.id
@@ -32,8 +33,9 @@ def check_button(txt):
         text = price_text()
     elif ind == 5:
         text = discount_text()
+    elif ind == 6:
+        text = registered_text()
     else:
-        ...
         text = 'under construction'
     return text
 
