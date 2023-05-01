@@ -142,7 +142,9 @@ STATIC_URL = 'static/'
 
 STATICFILES_DIRS = [
     ('locations', 'files/locations'),
-    ('directions', 'files/directions')
+    ('directions', 'files/directions'),
+    ('members', 'files/members')
+
 ]
 
 # Default primary key field type
