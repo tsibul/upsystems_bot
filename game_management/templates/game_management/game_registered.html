@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-{%  load static %}
+{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -14,9 +14,33 @@
 <link href="{% static 'game_management/bootstrap.min.css' %}" rel="stylesheet" crossorigin="anonymous">
 <link href="{% static 'game_management/style.css' %}" rel="stylesheet" crossorigin="anonymous">
 
-<body id="bg" style="background-image: url('{% static "img/back2.png"%}');">
-{%  include  'game_management/main.html' %}
+<body id="bg" style="background-image: url('{% static "img/back2.png" %}');">
+{% include  'game_management/main.html' %}
 <br><br>
+<div style="display: flex; flex-direction: column">
+    <div class="row justify-content-around fw-bold" style="width: 50%; margin-left: 180px;">
+        <div class="col"> дата</div>
+        <div class="col">место</div>
+        <div class="col">игра</div>
+        <div class="col">начало</div>
+        <div class="col">записано</div>
+    </div>
+    {% for game in registered_to_game %}
+        <div class="row justify-content-around hov" style="width: 50%; margin-left: 180px;"
+             onclick="showMembersRegistered(this);" data-id="m_{{ game.0.id }}">
+            <div class="col"> {{ game.0.date|date:'d.m.Y' }}</div>
+            <div class="col">{{ game.0.location.location_name }}</div>
+            <div class="col">{{ game.0.game.game_name }}</div>
+            <div class="col">{{ game.0.schedule_time_begin|date:'H:i' }}</div>
+            <div class="col">{{ game.1 }}</div>
+            {% for member in game.2 %}
+                <div style="display:none;" class="m_{{ game.0.id }}">{{ member }}</div>
+            {% endfor %}
+        </div>
+    {% endfor %}
 
+</div>
+
+<script src="{% static 'game_management/game_management.js' %}" crossorigin="anonymous"></script>
 </body>
 </html>
