@@ -123,3 +123,16 @@ function butBlock(obj){
 function unBlock(id){
     document.getElementById(id).disabled = false;
 }
+
+function showMembersRegistered(obj){
+    var clsName =  "." + obj.dataset.id;
+    var members = document.querySelectorAll(clsName);
+    for(var i in members){
+        if(members[i].style.display == "none"){
+            members[i].style.display = "inline";
+        }
+        else{
+            members[i].style.display = "none"
+        }
+    }
+}
