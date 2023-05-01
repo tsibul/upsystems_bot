@@ -17,6 +17,8 @@ urlpatterns = [
 
     path('members', views.members, name='members'),
     path('masters', views.masters, name='masters'),
+    path('game_registered', views.game_registered, name='game_registered'),
+
     path('results', views.results, name='results'),
     path('rating', views.rating, name='rating'),
 
